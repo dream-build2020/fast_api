@@ -7,8 +7,9 @@ class APISettings(BaseConfig):
     TITLE: str = "FAST-API"
     VERSION: float = 0.1
 
-    # router tag
-    router_tag: str = "router_tag"
+    # router get tag
+    get_tag: str = "get_tag"
+    put_tag: str = "put_tag"
 
 
 setting = APISettings()

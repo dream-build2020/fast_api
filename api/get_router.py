@@ -3,7 +3,7 @@ from settings.settings import setting
 
 router = APIRouter(
     prefix='/user',
-    tags=[setting.router_tag]
+    tags=[setting.get_tag]
 )
 
 
