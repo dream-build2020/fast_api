@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Header, Response, status, Depends
 from fastapi.responses import JSONResponse
-from typing import Optional
+from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from typing import Optional, Annotated
 from project import project_1
 from settings.settings import setting
 
@@ -8,6 +9,8 @@ router = APIRouter(
     prefix='/user',
     tags=[setting.get_tag]
 )
+
+security = HTTPBasic()
 
 
 class QueryCheck(object):
@@ -22,10 +25,15 @@ class QueryCheck(object):
 
 checker = QueryCheck("bar")
 
+
 @router.get('/me')
-async def user():
+async def user(info: Annotated[HTTPBasicCredentials, Depends(security)]):
     project_1
-    return True
+    return {
+        'username': info.username,
+        'password': info.password
+    }
+
 
 @router.get('/node1/{token}')
 async def node1(token: str, response: Response):
