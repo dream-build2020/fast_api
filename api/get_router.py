@@ -1,6 +1,7 @@
 from fastapi import APIRouter, Header, Response, status, Depends
 from fastapi.responses import JSONResponse
 from typing import Optional
+from project import project_1
 from settings.settings import setting
 
 router = APIRouter(
@@ -21,6 +22,10 @@ class QueryCheck(object):
 
 checker = QueryCheck("bar")
 
+@router.get('/me')
+async def user():
+    project_1
+    return True
 
 @router.get('/node1/{token}')
 async def node1(token: str, response: Response):
