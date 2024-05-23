@@ -23,6 +23,8 @@ if __name__ == '__main__':
     uvicorn.run(
         app="main:app",
         host=setting.HOST,
-        port=setting.PORT
+        port=setting.PORT,
+        reload=True,
+        debug=True
     )
     pass
