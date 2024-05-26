@@ -23,7 +23,6 @@ class Tables(setting.Base):
             # 查询所有行
             rows = session.query(Tables).all()
             for row in rows:
-                # print(f"ID: {row.ID}, User_ID: {row.User_ID}, User: {row.User}, Date: {row.Date}")
                 Tables.LOGGER.info(f"ID: {row.ID}, User_ID: {row.User_ID}, User: {row.User}, Date: {row.Date}")
                 data = {
                     'ID': row.ID,
