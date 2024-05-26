@@ -3,7 +3,6 @@ from datetime import datetime
 from settings.settings import setting
 from mysql_project.mysql_1 import Tables
 from pydantic import BaseModel
-from typing import Optional
 
 router = APIRouter(
     tags=[setting.put_tag]
@@ -36,10 +35,10 @@ async def put_mysql(data: dict):
                     User=User,
                     Date=Date
                     )
-    # return {
-    #     "ID": int(data.get('ID')),
-    #     "User_ID": int(data.get('User_ID')),
-    #     "User": data.get('User'),
-    #     "Date": datetime.today()
-    # }
+    return {
+        "ID": int(data.get('ID')),
+        "User_ID": int(data.get('User_ID')),
+        "User": data.get('User'),
+        "Date": datetime.today()
+    }
     pass
