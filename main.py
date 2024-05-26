@@ -1,7 +1,7 @@
 import uvicorn
 from fastapi import FastAPI
 from settings.settings import setting
-from api import get_router, put_router
+from api import get_router, post_router
 
 app = FastAPI(
     title=setting.TITLE,
@@ -9,7 +9,7 @@ app = FastAPI(
 )
 
 app.include_router(get_router.router)
-app.include_router(put_router.router)
+app.include_router(post_router.router)
 
 
 @app.get('/')
