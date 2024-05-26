@@ -25,6 +25,6 @@ if __name__ == '__main__':
         host=setting.HOST,
         port=setting.PORT,
         reload=True,
-        debug=True
+        # debug=True
     )
     pass

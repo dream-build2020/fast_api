@@ -4,6 +4,7 @@ from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from typing import Optional, Annotated
 from project import project_1
 from settings.settings import setting
+from mysql_project import mysql_1
 
 router = APIRouter(
     prefix='/user',
@@ -24,6 +25,14 @@ class QueryCheck(object):
 
 
 checker = QueryCheck("bar")
+
+
+@router.get('/mysql')
+async def mysql():
+    data = mysql_1.Tables.fetch_data()
+    return {
+        "items": data
+    }
 
 
 @router.get('/me')
