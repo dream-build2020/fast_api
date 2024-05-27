@@ -8,4 +8,4 @@ VOLUME /root /home/fastapi
 
 EXPOSE 8088
 
-CMD ["python3", "main.py"]
+ENTRYPOINT ["python3", "main.py"]
