@@ -4,8 +4,8 @@ LABEL authors="zhangguangde"
 
 WORKDIR /root
 
-COPY /home/fast_api /root
+VOLUME /root /home/fastapi
 
 EXPOSE 8088
 
-ENTRYPOINT ["python3", "/root/main.py"]
+CMD ["python3", "main.py"]
