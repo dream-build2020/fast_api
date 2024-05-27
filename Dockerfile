@@ -4,7 +4,7 @@ LABEL authors="zhangguangde"
 
 WORKDIR /root
 
-ADD /home/fast_api /root
+COPY /home/fast_api /root
 
 EXPOSE 8088
 
