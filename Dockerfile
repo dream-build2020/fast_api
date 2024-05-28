@@ -4,10 +4,8 @@ LABEL authors="zhangguangde"
 
 WORKDIR /root
 
-COPY /home/fastapi .
-
-VOLUME /root /home/fastapi
+COPY . .
 
 EXPOSE 8088
 
-ENTRYPOINT ["top"]
+ENTRYPOINT ["python3", "main.py"]
