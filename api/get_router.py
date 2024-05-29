@@ -29,10 +29,26 @@ checker = QueryCheck("bar")
 
 @router.get('/mysql')
 async def mysql():
+    """
+    实现查询dev_user_tables表的数据
+    :return: dev_user_tables数据表
+    """
     data = mysql_1.Tables.fetch_data()
     return {
         "items": data
     }
+
+
+items_list = [
+    {"item_name": "Foo"},
+    {"item_name": "Bar"},
+    {"item_name": "Baz"}
+]
+
+
+@router.get('/items')
+async def items(skip: int, limit: int):
+    return items_list[skip: skip + limit]
 
 
 @router.get('/me')
