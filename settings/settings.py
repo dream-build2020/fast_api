@@ -5,7 +5,7 @@ from sqlalchemy.orm import declarative_base
 
 
 class APISettings(BaseConfig):
-    HOST: str = "127.0.0.1"
+    HOST: str = "0.0.0.0"
     PORT: int = 8088
     TITLE: str = "FAST-API"
     VERSION: float = 0.1
