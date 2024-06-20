@@ -5,6 +5,10 @@ from sqlalchemy.orm import declarative_base
 
 
 class APISettings(BaseConfig):
+    # Celery settings
+    BROKER: str = "redis://192.168.31.101:6379"
+    BACKEND: str = "redis://192.168.31.101:6379"
+
     HOST: str = "0.0.0.0"
     PORT: int = 8088
     TITLE: str = "FAST-API"

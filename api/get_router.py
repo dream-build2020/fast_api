@@ -1,30 +1,58 @@
-from fastapi import APIRouter, Header, Response, status, Depends
+from fastapi import APIRouter, Request, Query, status
 from fastapi.responses import JSONResponse
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from typing import Optional, Annotated
-from project import project_1
 from settings.settings import setting
 from mysql_project import mysql_1
 
 router = APIRouter(
-    prefix='/user',
+    # prefix='/get',
     tags=[setting.get_tag]
 )
 
-security = HTTPBasic()
+
+@router.get('/base')
+async def get_base(*, request: Request):
+    res = {
+        # 客户端连接的 host
+        "host": request.client.host,
+        # 客户端连接的端口号
+        "port": request.client.port,
+        # 请求方法
+        "method": request.method,
+        # 请求路径
+        "base_url": request.base_url,
+        # request headers
+        "headers": request.headers,
+        # request cookies
+        "cookies": request.cookies
+    }
+    return res
 
 
-class QueryCheck(object):
-    def __init__(self, content: str):
-        self.content = content
-
-    def __call__(self, q: str = ""):
-        if q:
-            return self.content in q
-        return False
-
-
-checker = QueryCheck("bar")
+@router.get('/get/{items_id}')
+async def get_url(*,
+                  items_id: str,
+                  # Query: 请求参数
+                  name: str = Query(default=None, max_length=10),
+                  request: Request):
+    res = {
+        # 请求 url
+        "url": str(request.url),
+        # 总的组成
+        "components": request.url.components,
+        # 请求协议
+        "scheme": request.url.scheme,
+        # 请求 host
+        "hostname": request.url.hostname,
+        # 请求端口
+        "url_port": request.url.port,
+        # 请求 path
+        "path": request.url.path,
+        # 请求查询参数
+        "query": request.url.query,
+        "fragment": request.url.fragment,
+        "password": request.url.password
+    }
+    return JSONResponse(status_code=status.HTTP_200_OK, content=res)
 
 
 @router.get('/mysql')
@@ -36,49 +64,4 @@ async def mysql():
     data = mysql_1.Tables.fetch_data()
     return {
         "items": data
-    }
-
-
-items_list = [
-    {"item_name": "Foo"},
-    {"item_name": "Bar"},
-    {"item_name": "Baz"}
-]
-
-
-@router.get('/items')
-async def items(skip: int, limit: int):
-    return items_list[skip: skip + limit]
-
-
-@router.get('/me')
-async def user(info: Annotated[HTTPBasicCredentials, Depends(security)]):
-    project_1
-    return {
-        'username': info.username,
-        'password': info.password
-    }
-
-
-@router.get('/node1/{token}')
-async def node1(token: str, response: Response):
-    response.headers['x-auth-token'] = '123'
-    if token == "123":
-        response.status_code = status.HTTP_200_CREATED
-        return {
-            'heartbeat': 'hearth'
-        }
-
-
-@router.get('/node2/{key}')
-async def node2(key: str):
-    content = {"message": "Come to the dark"}
-    response = JSONResponse(content)
-    return response
-
-
-@router.get('/node3/')
-async def node3(content: bool = Depends(checker)):
-    return {
-        'item': content
     }

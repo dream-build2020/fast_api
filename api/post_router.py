@@ -1,26 +1,37 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Request
 from datetime import datetime
+from typing import Union
 from settings.settings import setting
 from mysql_project.mysql_1 import Tables
-from pydantic import BaseModel
+from utils import fast_config
 
 router = APIRouter(
     tags=[setting.put_tag]
 )
 
-
-class Item(BaseModel):
-    ID: int
-    User_ID: int
-    User: str
+ApiConfig = fast_config.Item
 
 
-@router.post('/post')
-async def put(items_id: dict):
-    return {
-        "items_id": items_id,
-        "ID": items_id.get('ID')
-    }
+@router.post("/data/")
+async def create_data(item: Union[dict, None] = None):
+    return item
+
+
+@router.post("/items/")
+async def create_item(item: ApiConfig,
+                      requests: Request):
+    """
+    在路径操作函数内部直接访问模型对象的属性：
+    :param requests: POST
+    :param item:
+    :return: item_dict
+    """
+    item_dict = item.dict()
+    if item.tax:
+        price_with_tax = item.price + item.tax
+        item_dict.update({"price_with_tax": price_with_tax,
+                          "requests": requests.method})
+    return item_dict
 
 
 @router.post('/mysql')

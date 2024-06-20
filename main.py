@@ -1,5 +1,6 @@
 import uvicorn
-from fastapi import FastAPI, Depends, status
+from celery import Celery
+from fastapi import FastAPI, Depends
 from fastapi.security import APIKeyHeader
 from settings.settings import setting
 from api import get_router, post_router
@@ -7,6 +8,11 @@ from api import get_router, post_router
 app = FastAPI(
     title=setting.TITLE,
     version=setting.VERSION,
+)
+
+CeleryApp = Celery(
+    'my_task',
+    broker=setting.BROKER
 )
 
 api_key = APIKeyHeader(name='X-API-key')
@@ -22,6 +28,7 @@ async def get_apikey(apikey: str = Depends(api_key)):
 
 
 @app.get('/')
+@CeleryApp.tasks
 async def index():
     return {
         'Stat': 'Health'
