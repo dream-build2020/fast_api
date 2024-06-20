@@ -1,4 +1,5 @@
 import uvicorn
+import time
 from celery import Celery
 from fastapi import FastAPI, Depends
 from fastapi.security import APIKeyHeader
@@ -30,6 +31,7 @@ async def get_apikey(apikey: str = Depends(api_key)):
 @app.get('/')
 @CeleryApp.tasks
 async def index():
+    time.sleep(5)
     return {
         'Stat': 'Health'
     }
