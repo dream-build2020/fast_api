@@ -8,6 +8,7 @@ class APISettings(BaseConfig):
     # Celery settings
     BROKER: str = "redis://192.168.31.101:6379"
     BACKEND: str = "redis://192.168.31.101:6379"
+    TIMEZONE: str = "Asia/Shanghai"
 
     HOST: str = "0.0.0.0"
     PORT: int = 8088

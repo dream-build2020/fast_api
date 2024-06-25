@@ -13,7 +13,8 @@ app = FastAPI(
 
 CeleryApp = Celery(
     'my_task',
-    broker=setting.BROKER
+    broker=setting.BROKER,
+    time=setting.TIMEZONE
 )
 
 api_key = APIKeyHeader(name='X-API-key')
