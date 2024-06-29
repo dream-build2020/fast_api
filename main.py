@@ -1,15 +1,11 @@
 import uvicorn
 import time
 from celery import Celery
-from fastapi import FastAPI, Depends
-from fastapi.security import APIKeyHeader
+from fastapi.responses import HTMLResponse
 from settings.settings import setting
 from api import get_router, post_router
+from settings.fast_app import app
 
-app = FastAPI(
-    title=setting.TITLE,
-    version=setting.VERSION,
-)
 
 CeleryApp = Celery(
     'my_task',
@@ -17,21 +13,22 @@ CeleryApp = Celery(
     time=setting.TIMEZONE
 )
 
-api_key = APIKeyHeader(name='X-API-key')
 
 # Fast-api 路由功能
 app.include_router(get_router.router)
 app.include_router(post_router.router)
 
 
-async def get_apikey(apikey: str = Depends(api_key)):
-    if apikey != 'my-api-key':
-        return False
-
-
-@app.get('/')
-@CeleryApp.tasks
+@app.get("/index")
 async def index():
+    with open("index.html", "r", encoding="utf-8") as file:
+        html_content = file.read()
+    return HTMLResponse(content=html_content)
+
+
+@app.get('/Health')
+# @CeleryApp.tasks
+async def health():
     time.sleep(5)
     return {
         'Stat': 'Health'
