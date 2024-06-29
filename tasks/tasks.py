@@ -7,11 +7,9 @@ LOGGER = logging.getLogger(__name__)
 class Tasks(object):
     @staticmethod
     @celery_app.tasks
-    def sum_add(a: int, b: int):
-        result = sum(a + b)
-        print(result)
+    def sum_add(a: int, b: int) -> int:
+        result = a + b
         return result
-        pass
 
 
 if __name__ == '__main__':
