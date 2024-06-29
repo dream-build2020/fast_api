@@ -3,8 +3,6 @@ from utils.config import settings
 
 
 celery_app = Celery('celery_tasks',
-                    brokerm=settings.CELERY_BROKER,
-                    include=["tasks.tasks"],
-                    # tasks=settings.TASKS
+                    broker=settings.CELERY_BROKER,
+                    include=["tasks.tasks"]
                     )
-pass
